@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'">
 <title>Privacy Policy — Becky the Bat</title>
 <style>
   :root{color-scheme:dark light}
@@ -21,31 +23,46 @@
 <div class="wrap">
   <a class="back" href="/">← Back to Becky the Bat</a>
   <h1>Privacy Policy</h1>
-  <div class="updated">Last updated: 23 August 2026</div>
+  <div class="updated">Last updated: 17 September 2026</div>
 
-  <p>Becky the Bat ("the App") is developed and published by Astryks Group. This policy explains what happens to your information when you play.</p>
+  <p>Becky the Bat ("the App", "the Game") is developed and published by Astryks Group. This policy explains what happens to your information when you play on the website (<a href="https://beckythebat.com">beckythebat.com</a>) or in the native iOS app.</p>
+
+  <h2>Summary</h2>
+  <p>We do not run our own analytics, advertising, or tracking SDKs, and we do not operate a player account system. Game progress is stored on your device. Some features (shares, App Store purchases, loading this website) use the network.</p>
 
   <h2>Data we collect</h2>
-  <p>The App does not collect, transmit, or store any personal information on any server. Becky the Bat runs entirely on your device and works fully offline.</p>
-  <p>The App does not include any analytics, advertising, or tracking software development kits (SDKs), and it makes no network requests of its own.</p>
+  <p>Astryks Group does not collect, transmit, or store personal information on our own servers for Becky the Bat. There is no Becky account, cloud save, or first-party analytics backend.</p>
+  <p>When you use the <strong>website</strong>, your browser still makes normal network requests to load pages and assets from GitHub Pages (or our CDN/host). Hosting providers may process standard technical logs (for example IP address, user agent, and request time) under their own policies. We do not use those logs to identify you as a player.</p>
+  <p>The <strong>native iOS app</strong> can be played offline for core gameplay once installed. Optional features that leave the device are described below.</p>
 
   <h2>Information stored on your device</h2>
-  <p>The App saves the following locally, on your device only, using standard browser local storage. This information never leaves your device and is not visible to us:</p>
+  <p>The Game saves the following locally on your device (browser <code>localStorage</code> on the web, or equivalent on-device storage in the app). This information is not uploaded to Astryks:</p>
   <ul>
     <li>Your best distance flown</li>
-    <li>Your current banked hearts balance</li>
-    <li>Your current run checkpoint, so a purchase can resume your game where you left off</li>
+    <li>Your banked hearts balance</li>
+    <li>A continue checkpoint for the current run</li>
+    <li>Purchase dedup / pending-transaction markers used only to avoid double-crediting native in-app purchases</li>
   </ul>
-  <p>Deleting the App removes this data. We cannot access, recover, or restore it.</p>
+  <p>Clearing site data, reinstalling the app, or restoring an old device backup can erase this local progress. We cannot access, recover, or restore it.</p>
 
-  <h2>In-app purchases</h2>
-  <p>Becky the Bat offers one optional in-app purchase ("100 Hearts"). Purchases are processed entirely by Apple through the App Store's In-App Purchase system. We never see or store your payment details — Apple handles your payment information under its own privacy policy, available at <a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</p>
+  <h2>Purchases</h2>
+  <p><strong>iOS app:</strong> Optional "100 Hearts" purchases are processed by Apple through In-App Purchase. We never see or store your payment card details. Apple handles payment information under its privacy policy at <a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</p>
+  <p><strong>Website (beckythebat.com):</strong> As of 17 September 2026, in-browser paid heart purchases are <strong>disabled</strong>. Hearts on the web build are earned by playing, or you can buy hearts in the App Store edition. We previously experimented with Stripe Payment Links for web checkout; that credit-on-return path is off because this static site has no server to verify payment. If you were charged by Stripe for an older web checkout and hearts did not appear, email <a href="mailto:support@astryks.com?subject=100%20Hearts%20refund%20request">support@astryks.com</a>. Stripe's privacy policy is at <a href="https://stripe.com/privacy">stripe.com/privacy</a>.</p>
+
+  <h2>Sharing your score</h2>
+  <p>If you use "Share Score", the Game may open your device share sheet or third-party share links (for example Facebook, X/Twitter, or WhatsApp) with the score text you chose to share. Those services receive whatever you send under their own privacy policies. We do not receive a copy of the share from those apps.</p>
+
+  <h2>Network use</h2>
+  <ul>
+    <li>Loading the website and its assets</li>
+    <li>Opening the App Store product page or support/privacy links</li>
+    <li>Optional score sharing to third-party apps or sites</li>
+    <li>Native App Store purchase / receipt flows handled by Apple (iOS app)</li>
+  </ul>
+  <p>Core flight gameplay does not require a Becky backend. Claims that the product "never uses the network" apply only to offline play of already-loaded content, not to browsing the website or using share/purchase links.</p>
 
   <h2>Children's privacy</h2>
-  <p>The App does not knowingly collect personal information from anyone, including children, because it does not collect personal information from anyone at all.</p>
-
-  <h2>Sharing Score</h2>
-  <p>If you choose to use the in-app "Share Score" feature, your device's native share sheet is used to share your score through an app you select (such as Messages). We do not receive or store anything from this action.</p>
+  <p>We do not knowingly collect personal information from children (or anyone else) into an Astryks database, because we do not operate such a database for this Game. Parents who believe a child provided information to Apple, Stripe, or a share destination should contact those providers directly as well as <a href="mailto:support@astryks.com">support@astryks.com</a>.</p>
 
   <h2>Changes to this policy</h2>
   <p>If this policy changes, the updated version will be posted at this same address with a new "Last updated" date.</p>

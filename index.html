@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; frame-src 'self'">
 <title>Becky the Bat</title>
 <meta name="description" content="Fly Becky the Bat across a world of famous cities, dodge obstacles, collect hearts and see how far you can go. Free to play.">
 <meta property="og:type" content="website">
@@ -87,7 +89,7 @@
   <div class="free-note">No download needed to try it — play instantly, right here.</div>
 
   <div class="hero-frame" id="heroFrame">
-    <iframe id="heroGame" src="/play.html" title="Becky the Bat — playable preview" loading="lazy"></iframe>
+    <iframe id="heroGame" src="/play.html" title="Becky the Bat — playable preview" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     <div class="tap-hint">▶ TAP TO PLAY FULLSCREEN</div>
   </div>
 </header>
@@ -120,7 +122,7 @@
   <div class="feature-grid">
     <div class="feature"><div class="emoji">🌐</div><h3>Explore the world</h3><p>People have built incredible things and there are so many beautiful things to see. Fly across cities around the world and explore with Becky.</p></div>
     <div class="feature"><div class="emoji">🩷</div><h3>Free to play</h3><p>Becky will always be free to play. We make money if you decide to buy 100 hearts to continue from where you crashed.</p></div>
-    <div class="feature"><div class="emoji">📱</div><h3>Play offline</h3><p>Becky works without an internet connection so you can play anywhere!</p></div>
+    <div class="feature"><div class="emoji">📱</div><h3>Play offline</h3><p>The iOS app can be played offline once installed. The website needs a connection to load, then you can keep flying in the tab.</p></div>
   </div>
 </section>
 
