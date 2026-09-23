@@ -1,16 +1,21 @@
 # Becky the Bat
-> Free offline arcade flyer game. Fly Becky across famous cities, dodge obstacles, collect hearts, and chase high scores.
+> Free casual arcade flyer — iOS App Store and browser. Fly Becky across 100+ famous cities, dodge obstacles, collect hearts, chase distance.
 
 - Site: https://beckythebat.com
+- Get the app: https://beckythebat.com/app.html
+- App Store: https://apps.apple.com/us/app/becky-the-bat/id6803877783
 - Play in browser: https://beckythebat.com/play.html
 - Privacy: https://beckythebat.com/privacy.html
 - Support: https://beckythebat.com/support.html
 
 ## Product facts
-- Free to play in the browser
-- Offline-friendly after load
-- Casual endless flyer with city scenery
-- Hearts as continue currency; native App Store path when published
+- Free to play (browser + App Store)
+- Offline on iOS after install
+- Optional one-time 100 Hearts IAP to continue after a crash — never required
+- No ads, no subscription
+- Category: Casual (secondary tip: Arcade)
+- Privacy: Data Not Collected
 
 ## Optional
 - Full notes: https://beckythebat.com/llms-full.txt
+- ASO paste pack (repo): ASO_METADATA.md on gh-pages

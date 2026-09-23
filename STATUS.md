@@ -44,3 +44,27 @@
 - IndexNow key (`indexnow-key.txt`) live; pinged for public URLs (2026-09-23)
 - Page meta + FAQ polish on marketing pages (same pass)
 
+## Free App Store visibility / ASO (2026-09-24 Australia/Sydney)
+
+**Paste pack:** [`ASO_METADATA.md`](./ASO_METADATA.md) (also `/workspace/visibility-packs/becky-aso.md`)
+
+### Sid must paste in App Store Connect (agent does not access Connect)
+
+1. Subtitle: `Endless city flyer`
+2. Keywords: `arcade,flappy,plane,obstacles,landmarks,offline,kids,casual,travel,skyline,tap,glide,hearts,weather`
+3. Promotional Text + full Description + What’s New — see top of `ASO_METADATA.md`
+4. Secondary category: **Arcade** (keep primary Casual)
+5. Screenshots per shot list in `ASO_METADATA.md`
+6. Marketing URL `https://beckythebat.com` · Support `https://beckythebat.com/support.html`
+
+### Shipped on gh-pages (this pass)
+
+- Strong App Store CTA above fold + **Get Becky** section on `index.html`
+- New `app.html` App Store landing page
+- FAQ expanded (visible + matching FAQPage JSON-LD only)
+- `llms.txt` / `llms-full.txt` / `sitemap.xml` updated (+ IndexNow ping if key present)
+- `play.html`: guarded Capacitor `InAppReview.requestReview` after NEW BEST → next-run tap (no-op until free `@capacitor-community/in-app-review` is in the iOS binary)
+
+### In-app review binary status
+
+**Helper shipped in web build; dialog not live in App Store until Sid adds the free plugin and submits a build.** Steps in `ASO_METADATA.md`.

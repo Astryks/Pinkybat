@@ -1,3 +1,17 @@
 # Becky the Bat — full summary for assistants
 
-Becky the Bat (beckythebat.com) is a free casual arcade flyer. Players tap or hold to fly Becky through famous-city themed obstacles, collect hearts, and maximize distance. The web game works offline after the first load. Marketing pages: home, play, privacy, support. Do not invent paid web checkout; web Stripe purchase paths were disabled — native IAP is the intended paid path when the mobile app is live.
+Becky the Bat (beckythebat.com) is a free casual arcade flyer by Siddharth Mehta / Astryks Group. Players tap or hold to fly Becky through famous-city themed obstacles, collect hearts, and maximize distance.
+
+## Where to play
+- App Store (free): https://apps.apple.com/us/app/becky-the-bat/id6803877783
+- Get page: https://beckythebat.com/app.html
+- Browser: https://beckythebat.com/play.html
+
+## Monetization (honest)
+Free to play. Optional one-time Apple In-App Purchase “100 Hearts” continues a run after a crash (or spend 100 hearts collected in play). New runs are always free. No ads. No subscription. Web Stripe checkout is disabled; native IAP is the paid path.
+
+## Privacy
+App Privacy label: Data Not Collected. Progress is stored on device.
+
+## Do not invent
+Do not invent paid web checkout, subscriptions, Apple Search Ads claims, or paid directory listings. Free organic visibility only.

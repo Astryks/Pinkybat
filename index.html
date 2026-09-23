@@ -8,17 +8,17 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; frame-src 'self'">
 <title>Becky the Bat</title>
 <link rel="canonical" href="https://beckythebat.com/">
-<meta name="description" content="Fly Becky the Bat across a world of famous cities, dodge obstacles, collect hearts and see how far you can go. Free to play.">
+<meta name="description" content="Becky the Bat — free endless city flyer on the App Store and in your browser. 100+ destinations, collect hearts, optional continue IAP.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://beckythebat.com/">
 <meta property="og:title" content="Becky the Bat">
-<meta property="og:description" content="Fly Becky the Bat across a world of famous cities, dodge obstacles, collect hearts and see how far you can go. Free to play.">
+<meta property="og:description" content="Becky the Bat — free endless city flyer on the App Store and in your browser. 100+ destinations, collect hearts, optional continue IAP.">
 <meta property="og:image" content="https://beckythebat.com/store-assets/app-icon-1024.png">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="1024">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Becky the Bat">
-<meta name="twitter:description" content="Fly Becky the Bat across a world of famous cities, dodge obstacles, collect hearts and see how far you can go. Free to play.">
+<meta name="twitter:description" content="Becky the Bat — free endless city flyer on the App Store and in your browser. 100+ destinations, collect hearts, optional continue IAP.">
 <meta name="twitter:image" content="https://beckythebat.com/store-assets/app-icon-1024.png">
 <style>
   :root{color-scheme:dark}
@@ -46,6 +46,16 @@
   .play-btn:hover{transform:translateY(-2px)}
 
   .free-note{font-size:13px;color:#9aa4c2;margin-top:4px}
+  .cta-row .appstore-badge{order:-1;transform:scale(1.05)}
+  .store-note{font-size:14px;font-weight:700;color:#ff9fc8;margin:0 0 10px}
+  section.get-becky{padding:40px 0 20px}
+  .get-card{background:linear-gradient(160deg,#1c2947,#24365f);border:1px solid #ffffff22;border-radius:22px;padding:28px 24px;text-align:center;box-shadow:0 16px 40px rgba(0,0,0,.28)}
+  .get-card h2{margin:0 0 8px;font-size:clamp(24px,4vw,34px);font-weight:1000}
+  .get-card p{margin:0 auto 18px;max-width:520px;color:#c9cee3}
+  .get-card .cta-row{margin-bottom:8px}
+  .faq details{background:#1c2947;border-radius:16px;padding:14px 16px;margin-bottom:12px}
+  .faq summary{font-weight:800;cursor:pointer}
+  .faq details p{margin:10px 0 0;color:#b7bfda;font-size:14px}
 
   .hero-frame{position:relative;max-width:340px;width:80%;aspect-ratio:9/19.5;margin:44px auto 0;border-radius:28px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45);border:1px solid #ffffff14;cursor:pointer;background:#000}
   .hero-frame iframe{width:100%;height:100%;border:0;pointer-events:none;display:block}
@@ -77,8 +87,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"What is Becky the Bat?","acceptedAnswer":{"@type":"Answer","text":"Becky the Bat is a free casual arcade flyer where you fly Becky across famous cities, dodge obstacles, collect hearts, and see how far you can go."}},
-{"@type":"Question","name":"Is Becky the Bat free?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can play free in the browser at beckythebat.com/play.html."}},
-{"@type":"Question","name":"Does Becky the Bat work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the game loads, it is designed to work offline."}}
+{"@type":"Question","name":"Is Becky the Bat free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Play free in the browser or get the free iOS app on the App Store. An optional one-time 100 Hearts In-App Purchase can continue a run after a crash; it is never required to play."}},
+{"@type":"Question","name":"Where do I get the iOS app?","acceptedAnswer":{"@type":"Answer","text":"Download Becky the Bat free on the App Store at https://apps.apple.com/app/id6803877783 or see https://beckythebat.com/app.html."}},
+{"@type":"Question","name":"Does Becky the Bat work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. The iOS app works offline once installed. The website needs a connection to load, then you can keep flying in the tab."}},
+{"@type":"Question","name":"What is the 100 Hearts purchase?","acceptedAnswer":{"@type":"Answer","text":"100 Hearts is an optional one-time App Store In-App Purchase. After a crash you can continue from your last city by spending 100 collected hearts or buying the pack. You can always start a new run for free."}}
 ]}
 </script>
 </head>
@@ -89,14 +101,15 @@
   <h1><span class="pink">BECKY</span> THE BAT</h1>
   <p class="tagline">Explore the beauty of cities around the world with Becky. Collect hearts, dodge obstacles, let's see how many cities you can see!</p>
 
+  <p class="store-note">Free on the App Store · optional 100 Hearts only to continue after a crash</p>
   <div class="cta-row">
-    <a class="appstore-badge" href="https://apps.apple.com/app/id6803877783" aria-label="Download on the App Store">
+    <a class="appstore-badge" href="https://apps.apple.com/us/app/becky-the-bat/id6803877783" aria-label="Download Becky the Bat free on the App Store">
       <svg viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
       <span class="lines"><span class="small">Download on the</span><span class="big">App Store</span></span>
     </a>
     <a class="play-btn" href="/play.html">▶ Play in Browser</a>
   </div>
-  <div class="free-note">No download needed to try it — play instantly, right here.</div>
+  <div class="free-note">Get the free iOS app for offline play — or try instantly in the browser. <a href="/app.html" style="color:#ff9fc8">Get Becky</a></div>
 
   <div class="hero-frame" id="heroFrame">
     <iframe id="heroGame" src="/play.html" title="Becky the Bat — playable preview" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -137,17 +150,33 @@
 </section>
 
 
-<section class="features wrap" id="faq" aria-label="Frequently asked questions">
+<section class="get-becky wrap" id="get-becky" aria-label="Get Becky on the App Store">
+  <div class="get-card">
+    <h2>Get Becky on the App Store</h2>
+    <p>Free endless city flyer for iPhone and iPad. Play offline after install. Optional one-time 100 Hearts In-App Purchase only continues a run after a crash — never required.</p>
+    <div class="cta-row">
+      <a class="appstore-badge" href="https://apps.apple.com/us/app/becky-the-bat/id6803877783" aria-label="Download on the App Store">
+        <svg viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+        <span class="lines"><span class="small">Download on the</span><span class="big">App Store</span></span>
+      </a>
+      <a class="play-btn" href="/app.html">App details</a>
+    </div>
+  </div>
+</section>
+
+<section class="features wrap faq" id="faq" aria-label="Frequently asked questions">
   <h2 style="text-align:center;font-size:clamp(24px,4vw,34px);font-weight:1000;margin-bottom:24px">FAQ</h2>
   <div class="feature-grid">
     <div class="feature"><h3>What is Becky the Bat?</h3><p>A free casual arcade flyer. Fly Becky across famous cities, dodge obstacles, collect hearts, and chase distance.</p></div>
-    <div class="feature"><h3>Is it free?</h3><p>Yes — play in the browser at no charge.</p></div>
-    <div class="feature"><h3>Does it work offline?</h3><p>Yes. After the first load, the game is designed to work offline.</p></div>
+    <div class="feature"><h3>Is Becky the Bat free?</h3><p>Yes. Play free in the browser or get the free iOS app. Optional one-time 100 Hearts IAP can continue a run after a crash — never required to play.</p></div>
+    <div class="feature"><h3>Where do I get the iOS app?</h3><p>Free on the <a href="https://apps.apple.com/us/app/becky-the-bat/id6803877783" style="color:#ff9fc8">App Store</a>. Details: <a href="/app.html" style="color:#ff9fc8">beckythebat.com/app.html</a>.</p></div>
+    <div class="feature"><h3>Does it work offline?</h3><p>Yes. The iOS app works offline once installed. The website needs a connection to load, then you can keep flying in the tab.</p></div>
+    <div class="feature"><h3>What is the 100 Hearts purchase?</h3><p>Optional one-time App Store IAP. After a crash, continue from your last city with 100 collected hearts or the pack. New runs are always free.</p></div>
   </div>
 </section>
 
 <footer class="wrap">
-  <div><a href="/privacy.html">Privacy Policy</a> · <a href="/support.html">Support</a> · <a href="/play.html">Play Now</a></div>
+  <div><a href="/app.html">Get Becky</a> · <a href="/play.html">Play Now</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/support.html">Support</a></div>
   <div style="margin-top:14px">© 2026 Astryks Group | <a href="https://astryks.com" target="_blank" rel="noopener">astryks.com</a></div>
 </footer>
 

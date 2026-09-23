@@ -107,6 +107,8 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
   let t = 0;
   let distance = 0;
   let best = Math.max(0, Math.floor(Number(localStorage.getItem('beckyBatBestFixed') || 0) || 0));
+  // Native-only StoreKit review: armed on NEW BEST, fired after player starts next run (never on crash/paywall/web).
+  let pendingReviewAfterBest = false;
   let cityIndex = 0;
   let runCityCount = 0;
   let lastRandomCity = -1;
@@ -429,6 +431,10 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
 
   function resetGame() {
     // New run from city 1. Lifetime hearts deliberately survive every restart.
+    if (pendingReviewAfterBest) {
+      pendingReviewAfterBest = false;
+      maybeRequestReview('new_best');
+    }
     saveHeartBank();
     state = 'play';
     holding = false;
@@ -500,12 +506,48 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     }
   }
 
+
+  // Free in-app review (Apple SKStoreReview via @capacitor-community/in-app-review).
+  // No-op on web or if the native plugin is not yet in the binary. Never call from
+  // crash/paywall/purchase paths — only after a new personal best, once the player
+  // chooses to fly again (see resetGame).
+  function maybeRequestReview(reason) {
+    try {
+      const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      if (!isNative) return;
+      const plugins = (window.Capacitor && window.Capacitor.Plugins) || {};
+      const IR = plugins.InAppReview || plugins.StoreReview;
+      if (!IR || typeof IR.requestReview !== 'function') return;
+
+      const COOLDOWN_MS = 120 * 24 * 60 * 60 * 1000; // ~120 days local courtesy throttle
+      const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+      const MAX_PER_YEAR = 3;
+      const now = Date.now();
+      let meta = { last: 0, yearStart: now, count: 0 };
+      try { meta = Object.assign(meta, JSON.parse(localStorage.getItem('beckyReviewMeta') || '{}')); } catch (_) {}
+      if (now - (meta.yearStart || 0) > YEAR_MS) { meta.yearStart = now; meta.count = 0; }
+      if (meta.last && (now - meta.last) < COOLDOWN_MS) return;
+      if ((meta.count || 0) >= MAX_PER_YEAR) return;
+
+      meta.last = now;
+      meta.count = (meta.count || 0) + 1;
+      try { localStorage.setItem('beckyReviewMeta', JSON.stringify(meta)); } catch (_) {}
+      // Slight delay so we are not overlapping the game-over → play transition UI.
+      setTimeout(() => {
+        try { IR.requestReview({ reason: reason || 'new_best' }); } catch (e) { console.warn('Becky review request failed', e); }
+      }, 900);
+    } catch (e) {
+      console.warn('Becky maybeRequestReview', e);
+    }
+  }
+
   function finishRun() {
     const score = Math.floor(distance);
     const isNewBest = score > best;
     if (isNewBest) {
       best = score;
       localStorage.setItem('beckyBatBestFixed', String(best));
+      pendingReviewAfterBest = true; // prompt later on next-run tap — not on this crash screen
     }
     finalEl.textContent = String(score);
     lastCrashCityIndex = cityIndex;
