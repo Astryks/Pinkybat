@@ -40,3 +40,7 @@
 - Canonical + FAQPage JSON-LD + visible FAQ on `index.html`
 - AI crawlers explicitly allowed
 - Added page-specific descriptions and canonicals to `play.html`, `privacy.html`, and `support.html`; support FAQ schema now mirrors its visible questions
+
+- IndexNow key (`indexnow-key.txt`) live; pinged for public URLs (2026-09-23)
+- Page meta + FAQ polish on marketing pages (same pass)
+
