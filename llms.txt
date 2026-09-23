@@ -1,0 +1,16 @@
+# Becky the Bat
+> Free offline arcade flyer game. Fly Becky across famous cities, dodge obstacles, collect hearts, and chase high scores.
+
+- Site: https://beckythebat.com
+- Play in browser: https://beckythebat.com/play.html
+- Privacy: https://beckythebat.com/privacy.html
+- Support: https://beckythebat.com/support.html
+
+## Product facts
+- Free to play in the browser
+- Offline-friendly after load
+- Casual endless flyer with city scenery
+- Hearts as continue currency; native App Store path when published
+
+## Optional
+- Full notes: https://beckythebat.com/llms-full.txt

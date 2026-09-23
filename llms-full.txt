@@ -1,0 +1,3 @@
+# Becky the Bat — full summary for assistants
+
+Becky the Bat (beckythebat.com) is a free casual arcade flyer. Players tap or hold to fly Becky through famous-city themed obstacles, collect hearts, and maximize distance. The web game works offline after the first load. Marketing pages: home, play, privacy, support. Do not invent paid web checkout; web Stripe purchase paths were disabled — native IAP is the intended paid path when the mobile app is live.

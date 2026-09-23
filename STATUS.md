@@ -33,3 +33,9 @@
 ## Base SHA before this fix
 
 `gh-pages` tip at audit: `a8b8ce6aaab2cf46d1e36b40bac78760dd92a09c`
+
+## Free SEO / LLM visibility (2026-09-23)
+
+- Added `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`
+- Canonical + FAQPage JSON-LD + visible FAQ on `index.html`
+- AI crawlers explicitly allowed
