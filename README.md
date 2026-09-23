@@ -1,6 +1,16 @@
-# Pinky Bat
+# Becky the Bat
 
-Pinky Bat is an offline-first arcade flyer for iOS and Android. Fly a cute pink-winged bat through increasingly difficult obstacles across beaches, New York City, desert scenery and more.
+**[beckythebat.com](https://beckythebat.com)** — Free offline fun — fly Becky across famous cities.
+
+Becky the Bat is a free offline game where you fly Becky across a world of famous cities, dodge obstacles, collect hearts, and see how far you can go. Built for quick fun without always-online requirements.
+
+> Play: [https://beckythebat.com](https://beckythebat.com) · Repo codename: Pinkybat
+
+---
+
+## Game overview
+
+Pinky Bat / Becky the Bat is an offline-first arcade flyer for iOS, Android, and the web. Fly a cute pink-winged bat through increasingly difficult obstacles across beaches, New York City, desert scenery and more.
 
 ## Gameplay
 
