@@ -39,3 +39,4 @@
 - Added `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`
 - Canonical + FAQPage JSON-LD + visible FAQ on `index.html`
 - AI crawlers explicitly allowed
+- Added page-specific descriptions and canonicals to `play.html`, `privacy.html`, and `support.html`; support FAQ schema now mirrors its visible questions
