@@ -5909,10 +5909,20 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     if(!Number.isFinite(rawDt)||rawDt<0) rawDt=SIM_STEP;
     rawDt=Math.min(rawDt,.20);
     lastTime=now;
-    simAccumulator=Math.min(.25,simAccumulator+rawDt);
+    // Capped intentionally low: after any real-world pause (a notification,
+    // the OS briefly throttling a backgrounded tab, a GC pause), a fixed
+    // timestep loop tries to "catch up" to wall-clock time by running extra
+    // steps in the very next frame. A cap of 12 packed 12 update() calls
+    // into a single frame, which is itself slow enough to look like the
+    // stutter it was trying to recover from — the "sometimes hung, not
+    // always smooth" symptom. Capping at 6 halves that worst case; the
+    // trade-off is the sim clock lags slightly behind wall-clock time after
+    // a big pause instead, which nobody notices, versus a visible hitch,
+    // which everybody does.
+    simAccumulator=Math.min(.10,simAccumulator+rawDt);
     try {
       let steps=0;
-      while(simAccumulator>=SIM_STEP && steps<12){
+      while(simAccumulator>=SIM_STEP && steps<6){
         if(state==='play') update(SIM_STEP);
         else if(state==='crash') updateCrash(SIM_STEP);
         else {
@@ -5930,7 +5940,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
         simAccumulator-=SIM_STEP;
         steps++;
       }
-      if(steps===12) simAccumulator=0;
+      if(steps===6) simAccumulator=0;
     } catch(err) {
       console.error('Becky update recovered',err);
       simAccumulator=0;
