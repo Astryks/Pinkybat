@@ -49,7 +49,7 @@
 
   <h2>Purchases</h2>
   <p><strong>iOS app:</strong> Optional "100 Hearts" purchases are processed by Apple through In-App Purchase. We never see or store your payment card details. Apple handles payment information under its privacy policy at <a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</p>
-  <p><strong>Website (beckythebat.com):</strong> As of 17 September 2026, in-browser paid heart purchases are <strong>disabled</strong>. Hearts on the web build are earned by playing, or you can buy hearts in the App Store edition. We previously experimented with Stripe Payment Links for web checkout; that credit-on-return path is off because this static site has no server to verify payment. If you were charged by Stripe for an older web checkout and hearts did not appear, email <a href="mailto:support@astryks.com?subject=100%20Hearts%20refund%20request">support@astryks.com</a>. Stripe's privacy policy is at <a href="https://stripe.com/privacy">stripe.com/privacy</a>.</p>
+  <p><strong>Website (beckythebat.com):</strong> Optional "100 Hearts" purchases on the web are processed by Stripe through a hosted Payment Link. We never see or store your card details. Because this is a static site with no backend of our own, the return from checkout can't be independently re-verified the way an App Store receipt can — we accept that trade-off since it only unlocks in-game currency, not a real-money withdrawal. Stripe's privacy policy is at <a href="https://stripe.com/privacy">stripe.com/privacy</a>. Need help or a refund? Email <a href="mailto:support@astryks.com?subject=100%20Hearts%20refund%20request">support@astryks.com</a>.</p>
 
   <h2>Sharing your score</h2>
   <p>If you use "Share Score", the Game may open your device share sheet or third-party share links (for example Facebook, X/Twitter, or WhatsApp) with the score text you chose to share. Those services receive whatever you send under their own privacy policies. We do not receive a copy of the share from those apps.</p>
@@ -60,6 +60,7 @@
     <li>Opening the App Store product page or support/privacy links</li>
     <li>Optional score sharing to third-party apps or sites</li>
     <li>Native App Store purchase / receipt flows handled by Apple (iOS app)</li>
+    <li>Optional Stripe checkout for web heart purchases (beckythebat.com)</li>
   </ul>
   <p>Core flight gameplay does not require a Becky backend. Claims that the product "never uses the network" apply only to offline play of already-loaded content, not to browsing the website or using share/purchase links.</p>
 

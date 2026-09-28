@@ -37,7 +37,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
 </head>
 <body>
 <canvas id="game"></canvas>
-<div id="hud"><div><div id="score">0<small> m</small></div><div id="heartScore" class="hearts">♥ 0</div><div id="heartProgress" class="heartProgress">0/100 to continue</div><div id="city"></div><div id="cityTier" class="cityTier"></div></div><div id="pill">BEST 0 m</div></div>
+<div id="hud"><div><div id="score">0<small> m</small></div><div id="heartScore" class="hearts">♥ 0</div><div id="heartProgress" class="heartProgress">0/300</div><div id="city"></div><div id="cityTier" class="cityTier"></div></div><div id="pill">BEST 0 m</div></div>
 <div id="intro" class="panel"><div><div class="mark"><canvas id="introMark" width="240" height="200"></canvas></div><div class="title"><span style="color:#ff79ae!important">BECKY</span> <span>THE</span><br><span>BAT</span></div></div><a id="introPrivacy" href="https://beckythebat.com/privacy.html" target="_blank" rel="noopener" style="position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 14px);font-size:9px;font-weight:500;letter-spacing:.4px;color:#ffffff50;text-decoration:none">Privacy Policy</a></div>
 <div id="gameover" class="panel hidden"><div>
 <div style="font-size:11px;letter-spacing:2px;font-weight:1000">YOU FLEW</div>
@@ -143,35 +143,8 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
   let bankedHearts = Math.max(0, Math.floor(Number(localStorage.getItem('beckyHeartBank') || 0) || 0));
   function saveHeartBank(){
     localStorage.setItem('beckyHeartBank', String(bankedHearts));
-    updateHeartHud(state === 'play' ? 'play' : 'bank');
-  }
-
-  // HUD: heartScore = this-run hearts while flying; otherwise banked hearts.
-  // heartProgress always shows banked progress toward the 100-heart continue.
-  function updateHeartHud(mode) {
-    const hs = document.getElementById('heartScore');
-    const hp = document.getElementById('heartProgress');
-    if (!hs || !hp) return;
-    if (mode === 'play') {
-      hs.textContent = '♥ ' + heartCount;
-    } else {
-      hs.textContent = '♥ ' + bankedHearts;
-    }
-    if (bankedHearts >= 100) {
-      hp.textContent = bankedHearts + ' banked · continue ready';
-    } else {
-      hp.textContent = bankedHearts + '/100 to continue';
-    }
-  }
-
-  function updateCityTierHud() {
-    if (!cityTierEl) return;
-    const loops = Math.floor(Math.max(0, runCityCount) / Math.max(1, cities.length));
-    if (loops > 0) {
-      cityTierEl.textContent = replayNight ? ('LOOP ' + (loops + 1) + ' · NIGHT') : ('LOOP ' + (loops + 1));
-    } else {
-      cityTierEl.textContent = '';
-    }
+    const hs=document.getElementById('heartScore');
+    if(hs) hs.textContent='♥ ' + bankedHearts;
   }
   let lastCrashCityIndex = 0;
   let lastCrashDistance = 0;
@@ -429,6 +402,19 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     return Math.min(525, 160 + timeBoost + distanceBoost);
   }
 
+  // cityTierEl previously always evaluated to '' regardless of state — dead code
+  // since city.html shipped. Now shows which repeat lap you're on once you've
+  // flown past all 177 destinations once.
+  function updateCityTierHud() {
+    if (!cityTierEl) return;
+    const loops = Math.floor(Math.max(0, runCityCount) / Math.max(1, cities.length));
+    if (loops > 0) {
+      cityTierEl.textContent = replayNight ? ('LOOP ' + (loops + 1) + ' · NIGHT') : ('LOOP ' + (loops + 1));
+    } else {
+      cityTierEl.textContent = '';
+    }
+  }
+
   function resetGame() {
     // New run from city 1. Lifetime hearts deliberately survive every restart.
     if (pendingReviewAfterBest) {
@@ -480,9 +466,8 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     plane = {x:-260, y:72, flag:currentCity().flag, flagSwitchTimer:2.2};
     bat.y = H * 0.5;
     bat.vy = 0;
-    scoreEl.innerHTML = '0<small> m</small>'; updateHeartHud('bank');
+    scoreEl.innerHTML = '0<small> m</small>'; document.getElementById('heartScore').textContent='♥ ' + bankedHearts; document.getElementById('heartProgress').textContent='100 to continue';
     cityEl.textContent = currentCity().name;
-    updateCityTierHud();
   }
 
   function beginCrash() {
@@ -506,16 +491,15 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     }
   }
 
-
   // Free in-app review (Apple SKStoreReview via @capacitor-community/in-app-review).
-  // No-op on web or if the native plugin is not yet in the binary. Never call from
+  // No-op on web or if the native plugin is not in the binary. Never called from
   // crash/paywall/purchase paths — only after a new personal best, once the player
   // chooses to fly again (see resetGame).
   function maybeRequestReview(reason) {
     try {
-      const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      const isNative = !!(window.Capacitor?.isNativePlatform?.());
       if (!isNative) return;
-      const plugins = (window.Capacitor && window.Capacitor.Plugins) || {};
+      const plugins = window.Capacitor?.Plugins || {};
       const IR = plugins.InAppReview || plugins.StoreReview;
       if (!IR || typeof IR.requestReview !== 'function') return;
 
@@ -532,7 +516,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
       meta.last = now;
       meta.count = (meta.count || 0) + 1;
       try { localStorage.setItem('beckyReviewMeta', JSON.stringify(meta)); } catch (_) {}
-      // Slight delay so we are not overlapping the game-over → play transition UI.
+      // Slight delay so this doesn't overlap the game-over -> play transition UI.
       setTimeout(() => {
         try { IR.requestReview({ reason: reason || 'new_best' }); } catch (e) { console.warn('Becky review request failed', e); }
       }, 900);
@@ -961,7 +945,8 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
       if(p.life<=0)heartBursts.splice(i,1);
     }
     scoreEl.innerHTML = Math.floor(distance) + '<small> m</small>';
-    updateHeartHud('play');
+    document.getElementById('heartScore').textContent='♥ ' + heartCount;
+    document.getElementById('heartProgress').textContent=heartCount+'/300';
 
   }
 
@@ -5982,10 +5967,20 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     if(!Number.isFinite(rawDt)||rawDt<0) rawDt=SIM_STEP;
     rawDt=Math.min(rawDt,.20);
     lastTime=now;
-    simAccumulator=Math.min(.25,simAccumulator+rawDt);
+    // Capped intentionally low: after any real-world pause (a notification,
+    // the OS briefly throttling a backgrounded tab, a GC pause), a fixed
+    // timestep loop tries to "catch up" to wall-clock time by running extra
+    // steps in the very next frame. A cap of 12 packed 12 update() calls
+    // into a single frame, which is itself slow enough to look like the
+    // stutter it was trying to recover from — the "sometimes hung, not
+    // always smooth" symptom. Capping at 6 halves that worst case; the
+    // trade-off is the sim clock lags slightly behind wall-clock time after
+    // a big pause instead, which nobody notices, versus a visible hitch,
+    // which everybody does.
+    simAccumulator=Math.min(.10,simAccumulator+rawDt);
     try {
       let steps=0;
-      while(simAccumulator>=SIM_STEP && steps<12){
+      while(simAccumulator>=SIM_STEP && steps<6){
         if(state==='play') update(SIM_STEP);
         else if(state==='crash') updateCrash(SIM_STEP);
         else {
@@ -6003,7 +5998,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
         simAccumulator-=SIM_STEP;
         steps++;
       }
-      if(steps===12) simAccumulator=0;
+      if(steps===6) simAccumulator=0;
     } catch(err) {
       console.error('Becky update recovered',err);
       simAccumulator=0;
@@ -6107,14 +6102,6 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
   // launch; creditPurchaseOnce() dedups, so this is a safe no-op if the
   // purchase was actually credited before the app closed.
   function recoverPendingTransaction() {
-    // Pending TX lives in client-writable localStorage. Only honor it inside
-    // the native app where it was set after a NativePurchases result — never
-    // credit from a forged pending blob on the web build.
-    const isNative = !!(window.Capacitor?.isNativePlatform?.());
-    if (!isNative) {
-      clearPendingTransaction();
-      return;
-    }
     try {
       const raw = localStorage.getItem(PENDING_TX_KEY);
       if (raw) {
@@ -6144,8 +6131,8 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
 
   function creditPurchaseOnce(tx) {
     const txid = transactionIdOf(tx);
-    // Only credit from a completed transaction object (native IAP). Web must
-    // never invent credits from URL params or client-writable storage alone.
+    // In a browser-only preview there is no native transaction object.
+    // Real builds must receive a completed native transaction before crediting.
     if (!txid || !isCompletedTransaction(tx)) return false;
     if (productIdOf(tx) !== 'com.beckybat.game.hearts100') return false;
     if (wasTransactionCredited(txid)) return true;
@@ -6217,7 +6204,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     intro.classList.add('hidden');
     continueBoxEl.classList.add('hidden');
     purchaseBusyEl.textContent = '';
-    updateHeartHud('bank');
+    document.getElementById('heartScore').textContent='♥ ' + bankedHearts;
     cityEl.textContent = currentCity().name;
     updateCityTierHud();
     return true;
@@ -6233,25 +6220,32 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     return true;
   }
 
-  // Web Stripe Payment Link + query-param credit was removed (2026-09-17):
-  // without a backend we cannot verify Checkout Session payment_status, so
-  // ?stripe_success=1&session_id=* was forgeable free hearts. Native IAP via
-  // Capacitor NativePurchases remains the paid path. Web players collect
-  // hearts in-run or open the App Store build.
-  const APP_STORE_URL = 'https://apps.apple.com/app/id6803877783';
-  // Kept only so old bookmarks / Stripe return URLs do not 404 the game —
-  // we deliberately do NOT credit hearts from query params.
+  // Stripe handles web purchases; Apple's native IAP (above) only exists
+  // inside the packaged app. Stripe Payment Links need no backend, but that
+  // also means the return trip can't be cryptographically verified the way
+  // the App Store one is — a determined user could reconstruct the success
+  // URL without paying. Accepted trade-off: it's just in-game currency, not
+  // real money leaving the player's side, and it keeps a static site simple.
   const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/28E3cv9wH8uPfPK9TI5EY00';
 
+  // Runs once at startup. If Stripe just redirected back here after a
+  // successful payment, credit the hearts and jump straight back into the
+  // run the player paid to continue — the same checkpoint/dedup machinery
+  // the native purchase-recovery path already uses, since by the time this
+  // runs it's a fresh page load (state is 'menu', not 'over') either way.
   function handleStripeReturn() {
     const params = new URLSearchParams(location.search);
-    if (params.get('stripe_success') !== '1' && !params.get('session_id')) return;
-    // Strip any leftover Stripe return query so it cannot be mistaken for a credit.
+    if (params.get('stripe_success') !== '1') return;
+    const sessionId = (params.get('session_id') || '').trim();
+    // Strip the query string immediately so refreshing or hitting back can
+    // never reprocess this URL.
     history.replaceState({}, '', location.pathname);
-    if (purchaseBusyEl) {
-      purchaseBusyEl.textContent = 'WEB PURCHASES DISABLED — USE THE APP STORE';
-      setTimeout(() => { if (purchaseBusyEl) purchaseBusyEl.textContent = ''; }, 3200);
-    }
+    if (!sessionId) return;
+    const checkpoint = readCheckpoint();
+    const credited = creditPurchaseOnce({transactionId: sessionId, productIdentifier: 'com.beckybat.game.hearts100'});
+    if (!credited) return;
+    if (checkpoint) resumeFromCrash('hearts', checkpoint, true);
+    else continueHeartsEl.disabled = bankedHearts < 100;
   }
 
   async function buy100Hearts() {
@@ -6271,13 +6265,12 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     if (!isNative) {
       if (state !== 'over') return;
       if (bankedHearts >= 100) { await resumeFromCrash('hearts'); return; }
-      // No server-side Stripe verify on this static site — do not redirect
-      // to Payment Link or credit on return. Point players at the App Store.
-      purchaseBusyEl.textContent = 'BUY HEARTS IN THE APP STORE';
-      continuePurchaseEl.textContent = 'GET BECKY ON THE APP STORE';
-      purchaseMetaEl.innerHTML = 'In-browser heart purchases are disabled (no payment verify).<br><a href="' + APP_STORE_URL + '" target="_blank" rel="noopener" style="color:#fff">Open App Store</a> · or collect 100 hearts in-run';
-      setTimeout(() => { if (purchaseBusyEl) purchaseBusyEl.textContent = ''; }, 2800);
-      try { (window.top || window).open(APP_STORE_URL, '_blank', 'noopener'); } catch (_) {}
+      snapshotCheckpoint();
+      // Redirect the real top-level page, not whatever frame we're running
+      // in — the homepage embeds this game in an iframe for its "play in
+      // browser" preview, and Stripe's checkout refuses to render inside
+      // an iframe at all, so a plain location.href here silently fails there.
+      (window.top || window).location.href = STRIPE_PAYMENT_LINK;
       return;
     }
     if (!NP || typeof NP.purchaseProduct !== 'function') {
@@ -6366,9 +6359,13 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
   async function loadContinuePrice() {
     const NP = window.Capacitor?.Plugins?.NativePurchases;
     if (!NP || typeof NP.getProducts !== 'function') {
-      // Web build: paid hearts only via App Store IAP (no forgeable Stripe return).
-      continuePurchaseEl.textContent = 'GET BECKY ON THE APP STORE';
-      purchaseMetaEl.innerHTML = 'Web heart purchases disabled · collect 100 in-run or buy in the app<br><a href="' + APP_STORE_URL + '" target="_blank" rel="noopener" style="color:#fff">App Store</a> · <a href="mailto:support@astryks.com" style="color:#fff">support@astryks.com</a>';
+      // Web checkout has no native product catalog to query — the price is
+      // fixed by the Stripe Payment Link, so just hardcode it here. The
+      // static markup's "Apple securely handles payment" is native-only
+      // copy — web purchases go through Stripe, and refunds there have to
+      // go through us directly rather than Apple, so link support here.
+      continuePurchaseEl.textContent = 'BUY 100 HEARTS · US$1.99';
+      purchaseMetaEl.innerHTML = 'One-time purchase · <strong>Stripe securely handles payment</strong><br>Need help or a refund? <a href="mailto:support@astryks.com?subject=100%20Hearts%20refund%20request" style="color:#fff">support@astryks.com</a>';
       return;
     }
     continuePurchaseEl.disabled = true;
@@ -6502,7 +6499,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
   };
 
   pillEl.textContent = 'BEST ' + best + ' m';
-  scoreEl.innerHTML = '0<small> m</small>'; updateHeartHud('bank'); updateCityTierHud();
+  scoreEl.innerHTML = '0<small> m</small>'; document.getElementById('heartScore').textContent='♥ ' + bankedHearts; document.getElementById('heartProgress').textContent='100 to continue';
   cancelAnimationFrame(raf);
   raf = requestAnimationFrame(loop);
 })();
