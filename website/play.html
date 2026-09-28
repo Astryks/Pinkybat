@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="description" content="Play Becky the Bat in your browser: fly across famous cities, dodge obstacles, collect hearts and chase your best distance.">
+<link rel="canonical" href="https://beckythebat.com/play.html">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; media-src 'self' blob:; worker-src 'self' blob:">
 <title>Becky the Bat</title>
 <style>
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#152036;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -103,6 +107,8 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
   let t = 0;
   let distance = 0;
   let best = Math.max(0, Math.floor(Number(localStorage.getItem('beckyBatBestFixed') || 0) || 0));
+  // Native-only StoreKit review: armed on NEW BEST, fired after player starts next run (never on crash/paywall/web).
+  let pendingReviewAfterBest = false;
   let cityIndex = 0;
   let runCityCount = 0;
   let lastRandomCity = -1;
@@ -396,8 +402,25 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     return Math.min(525, 160 + timeBoost + distanceBoost);
   }
 
+  // cityTierEl previously always evaluated to '' regardless of state — dead code
+  // since city.html shipped. Now shows which repeat lap you're on once you've
+  // flown past all 177 destinations once.
+  function updateCityTierHud() {
+    if (!cityTierEl) return;
+    const loops = Math.floor(Math.max(0, runCityCount) / Math.max(1, cities.length));
+    if (loops > 0) {
+      cityTierEl.textContent = replayNight ? ('LOOP ' + (loops + 1) + ' · NIGHT') : ('LOOP ' + (loops + 1));
+    } else {
+      cityTierEl.textContent = '';
+    }
+  }
+
   function resetGame() {
     // New run from city 1. Lifetime hearts deliberately survive every restart.
+    if (pendingReviewAfterBest) {
+      pendingReviewAfterBest = false;
+      maybeRequestReview('new_best');
+    }
     saveHeartBank();
     state = 'play';
     holding = false;
@@ -468,12 +491,47 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     }
   }
 
+  // Free in-app review (Apple SKStoreReview via @capacitor-community/in-app-review).
+  // No-op on web or if the native plugin is not in the binary. Never called from
+  // crash/paywall/purchase paths — only after a new personal best, once the player
+  // chooses to fly again (see resetGame).
+  function maybeRequestReview(reason) {
+    try {
+      const isNative = !!(window.Capacitor?.isNativePlatform?.());
+      if (!isNative) return;
+      const plugins = window.Capacitor?.Plugins || {};
+      const IR = plugins.InAppReview || plugins.StoreReview;
+      if (!IR || typeof IR.requestReview !== 'function') return;
+
+      const COOLDOWN_MS = 120 * 24 * 60 * 60 * 1000; // ~120 days local courtesy throttle
+      const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+      const MAX_PER_YEAR = 3;
+      const now = Date.now();
+      let meta = { last: 0, yearStart: now, count: 0 };
+      try { meta = Object.assign(meta, JSON.parse(localStorage.getItem('beckyReviewMeta') || '{}')); } catch (_) {}
+      if (now - (meta.yearStart || 0) > YEAR_MS) { meta.yearStart = now; meta.count = 0; }
+      if (meta.last && (now - meta.last) < COOLDOWN_MS) return;
+      if ((meta.count || 0) >= MAX_PER_YEAR) return;
+
+      meta.last = now;
+      meta.count = (meta.count || 0) + 1;
+      try { localStorage.setItem('beckyReviewMeta', JSON.stringify(meta)); } catch (_) {}
+      // Slight delay so this doesn't overlap the game-over -> play transition UI.
+      setTimeout(() => {
+        try { IR.requestReview({ reason: reason || 'new_best' }); } catch (e) { console.warn('Becky review request failed', e); }
+      }, 900);
+    } catch (e) {
+      console.warn('Becky maybeRequestReview', e);
+    }
+  }
+
   function finishRun() {
     const score = Math.floor(distance);
     const isNewBest = score > best;
     if (isNewBest) {
       best = score;
       localStorage.setItem('beckyBatBestFixed', String(best));
+      pendingReviewAfterBest = true; // prompt later on next-run tap — not on this crash screen
     }
     finalEl.textContent = String(score);
     lastCrashCityIndex = cityIndex;
@@ -713,7 +771,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
       }
     }
     cityEl.textContent=currentCity().name;
-    cityTierEl.textContent = (runCityCount >= cities.length && replayNight) ? '' : (runCityCount < 500 ? '' : '');
+    updateCityTierHud();
     if (continueGrace > 0) continueGrace = Math.max(0, continueGrace - dt);
     if (cityTransitionGrace > 0) cityTransitionGrace = Math.max(0, cityTransitionGrace - dt);
     if (renderRecoveryGrace > 0) renderRecoveryGrace = Math.max(0, renderRecoveryGrace - dt);
@@ -6148,7 +6206,7 @@ button{border:0;border-radius:999px;padding:14px 34px;margin:5px;background:#ff6
     purchaseBusyEl.textContent = '';
     document.getElementById('heartScore').textContent='♥ ' + bankedHearts;
     cityEl.textContent = currentCity().name;
-    cityTierEl.textContent = (runCityCount >= cities.length && replayNight) ? '' : (runCityCount < 500 ? '' : '');
+    updateCityTierHud();
     return true;
   }
 
