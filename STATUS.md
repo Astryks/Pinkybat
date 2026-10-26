@@ -1,5 +1,9 @@
 # Becky the Bat — status
 
+## Status review — 26 Oct 2026 (Sydney)
+- Git: branch `gh-pages`, working tree clean and pushed after this review.
+- Open: P0 security item — recoverPendingTransaction credits only on native; web clears pending without granting hearts (client-writable pending TX). Verify whether the latest remote commit addressed it.
+
 **Canonical source:** `vicky-the-bat-final` branch, `vicky-the-bat-mobile/source/vicky.html`
 **Live web deploy:** `gh-pages` → [beckythebat.com](https://beckythebat.com)
 **Native app:** synced from the same source into the Capacitor iOS project
